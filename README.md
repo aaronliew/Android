@@ -31,7 +31,7 @@ However, there is a disadvantage by just obtaining the values through entering t
 4) Connect to and read data from endpoint
 
 Initial Thought:
-In order to connect to the web service, I have added  "<uses-permission android:name="android.permission.INTERNET"/>" into the AndroidManifest.xml. By using try and catch method, exception error was caught and displayed on the TextView. Still, I encountered unknown problems which cause the crash happened on android applications. Other than that, the difficult problem that I was facing in this task was:"NetworkOnMainThreadException" exception. This exception prevented the Android Application from obtaining the data. 
+In order to connect to the web service, I have added  "uses-permission android:name="android.permission.INTERNET"/" into the AndroidManifest.xml. By using try and catch method, exception error was caught and displayed on the TextView. Still, I encountered unknown problems which cause the crash happened on android applications. Other than that, the difficult problem that I was facing in this task was:"NetworkOnMainThreadException" exception. This exception prevented the Android Application from obtaining the data. 
 
 Lesson Learnt:
 If there was any crash happened while launching the application in phone, I have learnt to solve the problems by viewing the LogCat. With this, I was able to determine source of error. For example, "NetworkOnMainThreadException" error was detected while I debugging the code. I have learnt to use asnyctask in order to read data from the endpoint and solve the "NetworkOnMainThreadException" problem. 
