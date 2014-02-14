@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings"></string>
+    <string name="app_name">"Android "</string>
+    <string name="info_title">JSON</string>
+    <string name="button_title">开始！</string>
+    <string name="table_title">个人资料</string>
+    <string name="ProgressBar_message">加载。。。</string>
+</resources>

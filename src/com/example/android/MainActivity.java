@@ -9,6 +9,10 @@
  *    {Liew Yee Foo} - initial API and implementation
  *******************************************************************************/
 
+/**UPDATES: Now, this android app is now available in three languages: English,
+ * Chinese and Korean. There will be progress bar shown to inform user about the
+ * progress of the activity.*/
+
 package com.example.android;
 
 import java.io.IOException;
@@ -19,7 +23,9 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -34,8 +40,10 @@ public class MainActivity extends Activity {
 	public TextView display;
 	public JSONObject json;
 	public TableLayout profile;
-	
-	
+	public int ProgressBarStatus;
+	public ProgressDialog progress;
+	public Handler progressBarbHandler = new Handler();
+	public Button StartDisplay;
 	
 	/**Display JSON data in table format on the user interface of android app
 	 * by clicking on the button 'Start'*/
@@ -54,7 +62,8 @@ public class MainActivity extends Activity {
 		 */
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Button StartDisplay= (Button)findViewById(R.id.btnDisplay);
+		progress = new ProgressDialog(this);
+		StartDisplay= (Button)findViewById(R.id.btnDisplay);
 		profile= (TableLayout)findViewById(R.id.tableLayout1);
 		profile.setStretchAllColumns(true);
 	    profile.bringToFront();
@@ -77,16 +86,58 @@ public class MainActivity extends Activity {
 	    
 	    /**
 		 * onClick: Executes the DownloadWebPageTask once OnClick event occurs. 
-		 * When user click on the "Start" button, the JSON data will be
-		 * read from URL and then displayed in table form.  
+		 * When user click on the "Start" button, 
+		 * 1)the JSON data will be read from URL 
+		 * 2)Progress bar will be shown till all data is read and displayed in
+		 * table form. Once it reaches 100%, it will be dismissed. 
+		 * 
+		 * Progress Bar: The message of the progress bar is obtained from strings.xml.
+		 * New thread is created to handle the action of the progress bar. 
 		 */
 	    StartDisplay.setOnClickListener(new View.OnClickListener() {
 			
 		public void onClick(View v) {
+			final String TAG = "MyActivity";
+		    progress.setMessage(getResources().getString(R.string.ProgressBar_message));
+		    progress.setCancelable(true);
+		    progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		    progress.setProgress(0);
+		    progress.setMax(100);
+		    progress.show();
+		    new Thread(new Runnable() {
 
+				public void run() {
+					while (ProgressBarStatus < 100) {
+						
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							Log.e(TAG,Log.getStackTraceString(e)); 
+						}
+						progressBarbHandler.post(new Runnable() {
+							public void run() {
+								progress.setProgress(ProgressBarStatus);
+							}
+						});
+					}
+
+					if (ProgressBarStatus >= 100) {
+
+						
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							Log.e(TAG,Log.getStackTraceString(e)); 
+						}
+
+						
+						progress.dismiss();
+					}
+				}
+			}).start();
 			DownloadWebPageTask task = new DownloadWebPageTask();
 			task.execute("http://private-ae335-pgserverapi.apiary.io/user/profile/234");
-
+			StartDisplay.setClickable(false);
 			}
 		});
 		
@@ -122,9 +173,13 @@ public class MainActivity extends Activity {
 		 * OnPostExecute: Processes the data, which is read from URL, by reading the keys 
 		 * and values of the JSON data lines by lines, and then replaces all the '_' in 
 		 * the string of the key with " " in order to allow the user to read the data 
-		 * clearly. All the processed data is displayed in table form.  */
+		 * clearly. All the processed data is displayed in table form.  
+		 * 
+		 * Progress Bar: It is updated whenever the keys and values of JSON is read 
+		 * and written into the table. */
 		@Override
 	    protected void onPostExecute(JSONObject json){
+			ProgressBarStatus=0;
 	    	Integer I=10;
 		    Iterator<String> iter = json.keys();
 		    while (iter.hasNext()) {
@@ -136,11 +191,14 @@ public class MainActivity extends Activity {
 		        	TextView Col2=(TextView)findViewById(I+2);
 		            Object value = json.get(key);
 		            Col2.setText(value.toString());
-		            I=I+10;
+		            I+=10;
+		            ProgressBarStatus+=10;
+		            
 		        } catch (JSONException e) {
 		        	Log.e(TAG,Log.getStackTraceString(e)); 
 		        }
 		    }
+		    
 
 	    }
 	}

@@ -18,7 +18,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="36dp"
         android:gravity="center_horizontal"
-        android:text="JSON"
+        android:text="@string/info_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_below="@+id/lblTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:text="Start" />
+        android:text="@string/button_title" />
 
     <TableLayout
         android:id="@+id/tableLayout1"
@@ -52,11 +52,23 @@
                 android:layout_gravity="center"
                 android:layout_span="6"
                 android:gravity="center"
-                android:text="User Profile"
+                android:text="@string/table_title"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </TableRow>
 
     </TableLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tableLayout1"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" 
+        
+    />
+    
 
 </RelativeLayout>
