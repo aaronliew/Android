@@ -4,7 +4,7 @@ Android
 **************************************************************
 UPDATES:
 
-Now, this android app is now available in three languages: English,Chinese and Korean. There will be progress bar shown to inform user about the progress of the activity.
+This android app is now available in three languages: English,Chinese and Korean. Progress bar will be shown to inform user about the progress of the activity.
 **************************************************************
 
 **************************************************************
