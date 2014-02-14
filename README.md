@@ -2,6 +2,12 @@ Android
 ===========
 
 **************************************************************
+UPDATES:
+
+Now, this android app is now available in three languages: English,Chinese and Korean. There will be progress bar shown to inform user about the progress of the activity.
+**************************************************************
+
+**************************************************************
 Lesson learnt and Initial thoughts on Android development:
 **************************************************************
 1)Eclipse- JAVA and XML-based programming languages
